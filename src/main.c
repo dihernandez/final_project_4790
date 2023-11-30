@@ -24,19 +24,7 @@ void init_i2c() {
 		printf("I2C init failed\n\r");
 	}
 
-	/** Configure Analogue filter
-	*/
-	if (HAL_I2CEx_ConfigAnalogFilter(&hi2c1, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
-	{
-		printf("I2C analog filter init failed\n\r");
-	}
 
-	/** Configure Digital filter
-	*/
-	if (HAL_I2CEx_ConfigDigitalFilter(&hi2c1, 0) != HAL_OK)
-	{
-		printf("I2C digital filter init failed\n\r");
-	}
 
 	gpio_init.Pin = GPIO_PIN_8 | GPIO_PIN_9;
 	gpio_init.Mode = GPIO_MODE_AF_OD;
