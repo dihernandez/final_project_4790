@@ -5,7 +5,6 @@
 MPU6050_t mpu6050;
 I2C_HandleTypeDef hi2c1;
 
-void init_i2c();
 
 void init_i2c() {
 	GPIO_InitTypeDef gpio_init;
@@ -23,8 +22,17 @@ void init_i2c() {
 	{
 		printf("I2C init failed\n\r");
 	}
+	if (HAL_I2CEx_ConfigAnalogFilter(&hi2c1, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
+	{
+		printf("I2C analog filter init failed\n\r");
+	}
 
-
+	/** Configure Digital filter
+	*/
+	if (HAL_I2CEx_ConfigDigitalFilter(&hi2c1, 0) != HAL_OK)
+	{
+		printf("I2C digital filter init failed\n\r");
+	}
 
 	gpio_init.Pin = GPIO_PIN_8 | GPIO_PIN_9;
 	gpio_init.Mode = GPIO_MODE_AF_OD;
@@ -38,8 +46,15 @@ int main(void){
 	Sys_Init();
 	init_i2c();
 	uint8_t init_status = MPU6050_Init(&hi2c1);
+	uint8_t Rec_Data[6];
+	HAL_I2C_Master_Transmit(&hi2c1,20,Rec_Data,1,1000); //Sending in Blocking mode
+
+    HAL_I2C_Mem_Read(&hi2c1, 0xAA, 1, 1, Rec_Data, 6, 10);
+
 	if(init_status != 0) {
 		printf("init failed\n\r");
+	}else{
+		printf("init success\n\r");
 	}
 	while(1) {
 		MPU6050_Read_Gyro(&hi2c1, &mpu6050);
