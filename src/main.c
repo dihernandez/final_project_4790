@@ -59,7 +59,10 @@ int main(void){
 	while(1) {
 		MPU6050_Read_Gyro(&hi2c1, &mpu6050);
 		HAL_Delay(100);
-		printf("Gyro X is %d, Y is %d, Z is %d \n\r", mpu6050.Gx, mpu6050.Gy, mpu6050.Gz);
+		uint16_t x = (uint16_t) mpu6050.Gx;
+		uint16_t y = (uint16_t) mpu6050.Gy;
+		uint16_t z = (uint16_t) mpu6050.Gz;
+		printf("Gyro X is %d, Y is %d, Z is %d \n\r", x, y, z);
 	}
 	// Read the README in the base directory of this project.
 }
