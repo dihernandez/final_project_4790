@@ -138,6 +138,9 @@ void Clock_Inits(void) {
 	// DMA2D Clock
 	__HAL_RCC_DMA2D_CLK_ENABLE();
 
+	// I2C Clock
+	__HAL_RCC_I2C1_CLK_ENABLE();
+
 }
 
 // This function is what makes everything work
